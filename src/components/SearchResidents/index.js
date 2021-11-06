@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import styles from "./SearchResidents.module.scss";
+import { searchAPI } from "../../api/api";
 
 export const SearchResidents = () => {
     // values on inputs
@@ -144,7 +145,9 @@ export const SearchResidents = () => {
                 </datalist>
             </div>
 
-            <button onClick={onSearchResidents}>Поиск жителей</button>
+            <button onClick={() => searchAPI.getStreets()}>
+                Поиск жителей
+            </button>
         </div>
     );
 };
