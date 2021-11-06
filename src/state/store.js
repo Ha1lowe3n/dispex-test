@@ -1,8 +1,10 @@
 import { createStore, compose, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { appartmensReducer } from "./apartments.reducer";
+import { appartmensReducer } from "./appartments.reducer";
+import { appReducer } from "./app.reducer";
 
 const rootReducer = combineReducers({
+    app: appReducer,
     appartments: appartmensReducer,
 });
 

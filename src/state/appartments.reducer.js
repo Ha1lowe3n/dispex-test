@@ -1,4 +1,5 @@
 import { searchAPI } from "../api/api";
+import { appActions } from "./app.reducer";
 
 const appartmens_CONSTANTS = {
     SET_STREETS: "SET_STREETS",
@@ -35,9 +36,10 @@ const appartmensActions = {
 // thunks
 export const fetchStreetsTC = () => async (dispatch) => {
     try {
+        dispatch(appActions.setStatus("loading"));
         const data = await searchAPI.getStreets();
-        console.log(data);
         dispatch(appartmensActions.setStreets(data));
+        dispatch(appActions.setStatus("stop"));
     } catch (err) {
         throw new Error(err);
     }
