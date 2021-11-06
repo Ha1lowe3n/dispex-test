@@ -1,11 +1,15 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
 import styles from "./SearchResidents.module.scss";
 import { searchAPI } from "../../api/api";
+import { fetchStreetsTC } from "../../state/appartments.reducer";
 
 export const SearchResidents = () => {
+    const dispatch = useDispatch();
+    const streets = useSelector((state) => state.appartments.streets);
+    console.log(streets);
+
     // values on inputs
     const [street, setStreet] = useState("");
     const [house, setHouse] = useState("");
@@ -17,7 +21,6 @@ export const SearchResidents = () => {
     const [errorInputHouses, setErrorInputHouses] = useState(false);
     const [errorInputFlats, setErrorInputFlats] = useState(false);
 
-    const streets = ["lala", "tata", "rara"];
     const houses = ["lala", "tata", "rara"];
     const flats = ["lala", "tata", "rara"];
 
@@ -41,7 +44,9 @@ export const SearchResidents = () => {
     };
 
     const onCheckErrorInputStreet = (e) => {
-        const haveValueOrNot = streets.includes(e.currentTarget.value);
+        const haveValueOrNot = Object.values(streets).includes(
+            e.currentTarget.value
+        );
         if (!haveValueOrNot) {
             setErrorInputStreets(true);
         }
@@ -129,7 +134,7 @@ export const SearchResidents = () => {
                 </div>
 
                 <datalist id="streets">
-                    {streets.map((street, i) => (
+                    {Object.values(streets).map((street, i) => (
                         <option key={street + i}>{street}</option>
                     ))}
                 </datalist>
@@ -145,9 +150,7 @@ export const SearchResidents = () => {
                 </datalist>
             </div>
 
-            <button onClick={() => searchAPI.getStreets()}>
-                Поиск жителей
-            </button>
+            <button onClick={onSearchResidents}>Поиск жителей</button>
         </div>
     );
 };
