@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import Grid from "@mui/material/Grid";
+
+import { SearchResidents } from "./components/SearchResidents";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    return (
+        <Grid
+            style={{ width: "1140px", margin: "0 auto" }}
+            container
+            spacing={2}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+            <SearchResidents />
+        </Grid>
+    );
 }
 
 export default App;

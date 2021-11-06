@@ -1,0 +1,59 @@
+.wrapper {
+    margin: 30px auto 0 auto;
+
+    .inputs {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+
+        input {
+            height: 50px;
+            width: 200px;
+            margin-right: 10px;
+            padding-left: 10px;
+        }
+
+        .errorInput {
+            border: 2px solid red;
+        }
+
+        .errorText {
+            display: block;
+            color: red;
+            position: absolute;
+            top: 50px;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+    }
+
+    h2 {
+        display: block;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .errorStar {
+        display: inline;
+        color: red;
+        position: absolute;
+        left: -15px;
+    }
+
+    button {
+        display: block;
+        margin-top: 30px;
+        width: 135px;
+        height: 40px;
+        background-color: #fff;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid black;
+
+        &:active {
+            padding-top: 5px;
+        }
+    }
+}
