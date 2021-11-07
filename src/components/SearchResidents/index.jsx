@@ -6,12 +6,15 @@ import { searchAPI } from "../../api/api";
 import {
     appartmensActions,
     fetchHousesTC,
+    fetchFlatsTC,
 } from "../../state/appartments.reducer";
 
 export const SearchResidents = () => {
     const dispatch = useDispatch();
-    const { streets, houses } = useSelector((state) => state.appartments);
-    // console.log(streets);
+    const { streets, houses, flats } = useSelector(
+        (state) => state.appartments
+    );
+    console.log(flats);
 
     // values on inputs
     const [street, setStreet] = useState("");
@@ -23,8 +26,6 @@ export const SearchResidents = () => {
     const [errorInputStreets, setErrorInputStreets] = useState(false);
     const [errorInputHouses, setErrorInputHouses] = useState(false);
     const [errorInputFlats, setErrorInputFlats] = useState(false);
-
-    const flats = ["lala", "tata", "rara"];
 
     const onChangeStreet = (e) => {
         if (errorInputStreets) {
@@ -40,7 +41,7 @@ export const SearchResidents = () => {
                 (key) => streets[key] === e.currentTarget.value
             );
             dispatch(appartmensActions.getCurrentStreetId(+idOfStreet));
-            dispatch(fetchHousesTC(idOfStreet));
+            dispatch(fetchHousesTC());
         }
     };
     const onChangeHouse = (e) => {
@@ -48,6 +49,18 @@ export const SearchResidents = () => {
             setErrorInputHouses(false);
         }
         setHouse(e.currentTarget.value);
+
+        const haveValueOrNot = Object.values(houses).includes(
+            e.currentTarget.value
+        );
+        if (haveValueOrNot) {
+            const idOfHouse = Object.keys(houses).find(
+                (key) => houses[key] === e.currentTarget.value
+            );
+            console.log(idOfHouse);
+            dispatch(appartmensActions.getCurrentHouseId(+idOfHouse));
+            dispatch(fetchFlatsTC());
+        }
     };
     const onChangeFlat = (e) => {
         if (errorInputFlats) {
@@ -68,13 +81,14 @@ export const SearchResidents = () => {
         const haveValueOrNot = Object.values(houses).includes(
             e.currentTarget.value
         );
-        console.log(haveValueOrNot);
         if (!haveValueOrNot) {
             setErrorInputHouses(true);
         }
     };
     const onCheckErrorInputFlats = (e) => {
-        const haveValueOrNot = flats.includes(e.currentTarget.value);
+        const haveValueOrNot = Object.values(flats).includes(
+            e.currentTarget.value
+        );
         if (!haveValueOrNot) {
             setErrorInputFlats(true);
         }
@@ -160,7 +174,7 @@ export const SearchResidents = () => {
                     ))}
                 </datalist>
                 <datalist id="flats">
-                    {flats.map((flat, i) => (
+                    {Object.values(flats).map((flat, i) => (
                         <option key={flat + i}>{flat}</option>
                     ))}
                 </datalist>
