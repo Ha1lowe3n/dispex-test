@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./SearchResidents.module.scss";
-import { searchAPI } from "../../api/api";
+
 import {
     appartmensActions,
     fetchHousesTC,
@@ -11,18 +11,16 @@ import {
 
 export const SearchResidents = () => {
     const dispatch = useDispatch();
-    const { streets, houses, flats } = useSelector(
-        (state) => state.appartments
-    );
-    console.log(flats);
+    const { streets, houses, flats, errorAddress, currentHouseId } =
+        useSelector((state) => state.appartments);
+    console.log(currentHouseId, flats);
 
     // values on inputs
     const [street, setStreet] = useState("");
     const [house, setHouse] = useState("");
     const [flat, setFlat] = useState("");
 
-    // errors
-    const [errorAddress, setErrorAddress] = useState(false);
+    // errors of inputs
     const [errorInputStreets, setErrorInputStreets] = useState(false);
     const [errorInputHouses, setErrorInputHouses] = useState(false);
     const [errorInputFlats, setErrorInputFlats] = useState(false);
@@ -57,7 +55,6 @@ export const SearchResidents = () => {
             const idOfHouse = Object.keys(houses).find(
                 (key) => houses[key] === e.currentTarget.value
             );
-            console.log(idOfHouse);
             dispatch(appartmensActions.getCurrentHouseId(+idOfHouse));
             dispatch(fetchFlatsTC());
         }
@@ -96,9 +93,9 @@ export const SearchResidents = () => {
 
     const onSearchResidents = () => {
         if (street.trim() === "" || house.trim() === "" || flat.trim() === "") {
-            setErrorAddress(true);
+            dispatch(appartmensActions.errorAddress(true));
         } else {
-            setErrorAddress(false);
+            dispatch(appartmensActions.errorAddress(false));
             console.log("search residents");
         }
     };
@@ -154,12 +151,19 @@ export const SearchResidents = () => {
                         onChange={onChangeFlat}
                         onBlur={onCheckErrorInputFlats}
                     />
-                    {errorInputFlats && (
+
+                    {currentHouseId && Object.keys(flats).length === 0 ? (
                         <div className={styles.errorText}>
-                            {flat.trim() === ""
-                                ? "* Нужно заполнить поле"
-                                : "* Некорректные данные"}
+                            * Квартиры в доме не найдены
                         </div>
+                    ) : (
+                        errorInputFlats && (
+                            <div className={styles.errorText}>
+                                {flat.trim() === ""
+                                    ? "* Нужно заполнить поле"
+                                    : "* Некорректные данные"}
+                            </div>
+                        )
                     )}
                 </div>
 

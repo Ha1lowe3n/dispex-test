@@ -7,13 +7,14 @@ const appartmens_CONSTANTS = {
     SET_FLATS: "SET_FLATS",
     GET_CURRENT_STREET_ID: "GET_CURRENT_STREET_ID",
     GET_CURRENT_HOUSE_ID: "GET_CURRENT_HOUSE_ID",
+    ERROR_ADDRESS: "ERROR_ADDRESS",
 };
 
 const initialState = {
     streets: {},
     houses: {},
     flats: {},
-    errorAdress: false,
+    errorAddress: false,
     currentStreetId: null,
     currentHouseId: null,
 };
@@ -29,6 +30,7 @@ export const appartmensReducer = (state = initialState, action) => {
         }
         case appartmens_CONSTANTS.SET_HOUSES: {
             const newState = { ...state, houses: { ...state.houses } };
+            newState.houses = {};
             action.payload.houses.forEach((house) => {
                 newState.houses[house.id] = house.name;
             });
@@ -36,6 +38,7 @@ export const appartmensReducer = (state = initialState, action) => {
         }
         case appartmens_CONSTANTS.SET_FLATS: {
             const newState = { ...state, flats: { ...state.flats } };
+            newState.flats = {};
             action.payload.flats
                 .filter((flat) => flat.typeName === "Квартира")
                 .forEach((flat) => {
@@ -52,6 +55,11 @@ export const appartmensReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentHouseId: action.payload.currentHouseId,
+            };
+        case appartmens_CONSTANTS.ERROR_ADDRESS:
+            return {
+                ...state,
+                errorAddress: action.payload.errorAddress,
             };
 
         default:
@@ -79,6 +87,10 @@ export const appartmensActions = {
     getCurrentHouseId: (currentHouseId) => ({
         type: appartmens_CONSTANTS.GET_CURRENT_HOUSE_ID,
         payload: { currentHouseId },
+    }),
+    errorAddress: (errorAddress) => ({
+        type: appartmens_CONSTANTS.ERROR_ADDRESS,
+        payload: { errorAddress },
     }),
 };
 
