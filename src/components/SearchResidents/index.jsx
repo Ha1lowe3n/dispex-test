@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./SearchResidents.module.scss";
 import { searchAPI } from "../../api/api";
-import { fetchStreetsTC } from "../../state/appartments.reducer";
+import {
+    appartmensActions,
+    fetchHousesTC,
+} from "../../state/appartments.reducer";
 
 export const SearchResidents = () => {
     const dispatch = useDispatch();
-    const streets = useSelector((state) => state.appartments.streets);
-    console.log(streets);
+    const { streets, houses } = useSelector((state) => state.appartments);
+    // console.log(streets);
 
     // values on inputs
     const [street, setStreet] = useState("");
@@ -21,7 +24,6 @@ export const SearchResidents = () => {
     const [errorInputHouses, setErrorInputHouses] = useState(false);
     const [errorInputFlats, setErrorInputFlats] = useState(false);
 
-    const houses = ["lala", "tata", "rara"];
     const flats = ["lala", "tata", "rara"];
 
     const onChangeStreet = (e) => {
@@ -29,16 +31,27 @@ export const SearchResidents = () => {
             setErrorInputStreets(false);
         }
         setStreet(e.currentTarget.value);
+
+        const haveValueOrNot = Object.values(streets).includes(
+            e.currentTarget.value
+        );
+        if (haveValueOrNot) {
+            const idOfStreet = Object.keys(streets).find(
+                (key) => streets[key] === e.currentTarget.value
+            );
+            dispatch(appartmensActions.getCurrentStreetId(+idOfStreet));
+            dispatch(fetchHousesTC(idOfStreet));
+        }
     };
     const onChangeHouse = (e) => {
         if (errorInputHouses) {
-            setErrorInputStreets(false);
+            setErrorInputHouses(false);
         }
         setHouse(e.currentTarget.value);
     };
     const onChangeFlat = (e) => {
         if (errorInputFlats) {
-            setErrorInputStreets(false);
+            setErrorInputFlats(false);
         }
         setFlat(e.currentTarget.value);
     };
@@ -52,7 +65,10 @@ export const SearchResidents = () => {
         }
     };
     const onCheckErrorInputHouses = (e) => {
-        const haveValueOrNot = houses.includes(e.currentTarget.value);
+        const haveValueOrNot = Object.values(houses).includes(
+            e.currentTarget.value
+        );
+        console.log(haveValueOrNot);
         if (!haveValueOrNot) {
             setErrorInputHouses(true);
         }
@@ -139,7 +155,7 @@ export const SearchResidents = () => {
                     ))}
                 </datalist>
                 <datalist id="houses">
-                    {houses.map((house, i) => (
+                    {Object.values(houses).map((house, i) => (
                         <option key={house + i}>{house}</option>
                     ))}
                 </datalist>
