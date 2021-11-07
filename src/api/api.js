@@ -17,4 +17,8 @@ export const searchAPI = {
         const res = await instance.get(`Request/house_flats/${id}`);
         return res.data;
     },
+    async getResidentsInHouse(houseId) {
+        const res = await instance.get(`HousingStock?houseId=${houseId}`);
+        return res.data;
+    },
 };

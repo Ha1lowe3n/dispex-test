@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { SearchResidents } from "./components/SearchResidents";
 import { fetchStreetsTC } from "./state/appartments.reducer";
 import { Loader } from "./components/Loader";
+import { ResidentsList } from "./components/ResidentsList";
+
+import styles from "./App.module.scss";
 
 function App() {
     const dispatch = useDispatch();
@@ -16,13 +19,11 @@ function App() {
     return (
         <>
             {status === "loading" && <Loader />}
-            <Grid
-                style={{ width: "1140px", margin: "0 auto" }}
-                container
-                spacing={2}
-            >
+            <div className={styles.container}>
                 <SearchResidents />
-            </Grid>
+                <div className={styles.hr}></div>
+                <ResidentsList />
+            </div>
         </>
     );
 }

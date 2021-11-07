@@ -8,13 +8,12 @@ import {
     fetchHousesTC,
     fetchFlatsTC,
 } from "../../state/appartments.reducer";
+import { fetchResidentsTC } from "../../state/residents.reducer";
 
 export const SearchResidents = () => {
     const dispatch = useDispatch();
     const { streets, houses, flats, errorAddress, currentHouseId } =
         useSelector((state) => state.appartments);
-
-    console.log(currentHouseId, Object.keys(flats).length);
 
     // values on inputs
     const [street, setStreet] = useState("");
@@ -95,6 +94,7 @@ export const SearchResidents = () => {
             dispatch(appartmensActions.errorAddress(true));
         } else {
             dispatch(appartmensActions.errorAddress(false));
+            dispatch(fetchResidentsTC(currentHouseId, flat));
         }
     };
 
