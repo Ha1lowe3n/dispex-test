@@ -13,7 +13,8 @@ export const SearchResidents = () => {
     const dispatch = useDispatch();
     const { streets, houses, flats, errorAddress, currentHouseId } =
         useSelector((state) => state.appartments);
-    console.log(currentHouseId, flats);
+
+    console.log(currentHouseId, Object.keys(flats).length);
 
     // values on inputs
     const [street, setStreet] = useState("");
@@ -38,8 +39,7 @@ export const SearchResidents = () => {
             const idOfStreet = Object.keys(streets).find(
                 (key) => streets[key] === e.currentTarget.value
             );
-            dispatch(appartmensActions.getCurrentStreetId(+idOfStreet));
-            dispatch(fetchHousesTC());
+            dispatch(fetchHousesTC(+idOfStreet));
         }
     };
     const onChangeHouse = (e) => {
@@ -55,8 +55,7 @@ export const SearchResidents = () => {
             const idOfHouse = Object.keys(houses).find(
                 (key) => houses[key] === e.currentTarget.value
             );
-            dispatch(appartmensActions.getCurrentHouseId(+idOfHouse));
-            dispatch(fetchFlatsTC());
+            dispatch(fetchFlatsTC(+idOfHouse));
         }
     };
     const onChangeFlat = (e) => {
@@ -96,7 +95,6 @@ export const SearchResidents = () => {
             dispatch(appartmensActions.errorAddress(true));
         } else {
             dispatch(appartmensActions.errorAddress(false));
-            console.log("search residents");
         }
     };
 

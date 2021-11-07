@@ -105,23 +105,23 @@ export const fetchStreetsTC = () => async (dispatch) => {
         throw new Error(err);
     }
 };
-export const fetchHousesTC = () => async (dispatch, getState) => {
+export const fetchHousesTC = (idOfStreet) => async (dispatch) => {
     try {
         dispatch(appActions.setStatus("loading"));
-        const currentStreetId = getState().appartments.currentStreetId;
-        const houses = await searchAPI.getHouses(currentStreetId);
+        const houses = await searchAPI.getHouses(idOfStreet);
         dispatch(appartmensActions.setHouses(houses));
+        dispatch(appartmensActions.getCurrentStreetId(idOfStreet));
         dispatch(appActions.setStatus("stop"));
     } catch (err) {
         throw new Error(err);
     }
 };
-export const fetchFlatsTC = () => async (dispatch, getState) => {
+export const fetchFlatsTC = (idOfHouse) => async (dispatch) => {
     try {
         dispatch(appActions.setStatus("loading"));
-        const currentHouseId = getState().appartments.currentHouseId;
-        const flats = await searchAPI.getFlats(currentHouseId);
+        const flats = await searchAPI.getFlats(idOfHouse);
         dispatch(appartmensActions.setFlats(flats));
+        dispatch(appartmensActions.getCurrentHouseId(+idOfHouse));
         dispatch(appActions.setStatus("stop"));
     } catch (err) {
         throw new Error(err);
