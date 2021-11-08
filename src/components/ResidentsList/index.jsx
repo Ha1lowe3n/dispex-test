@@ -8,42 +8,46 @@ import styles from "./ResidentsList.module.scss";
 
 export const ResidentsList = () => {
     const { residents } = useSelector((state) => state.residents);
-    console.log(residents);
+    const { fullAddressTitle } = useSelector((state) => state.appartments);
+    console.log(fullAddressTitle, residents);
     return (
-        <div className={styles.list}>
-            {residents.clients?.map((resident) => (
-                <div className={styles.item}>
-                    <div className={styles.itemIcon}>
-                        <PersonIcon />
-                    </div>
-
-                    <div>
-                        {resident.name && <h4>{resident.name}</h4>}
-                        <div className={styles.itemPhone}>
-                            <CallIcon
-                                style={{
-                                    width: "14px",
-                                    height: "14px",
-                                    marginRight: "5px",
-                                }}
-                            />
-                            {resident.phone}
+        <>
+            <h3>{fullAddressTitle}</h3>
+            <div className={styles.list}>
+                {residents.clients?.map((resident, i) => (
+                    <div key={resident + i} className={styles.item}>
+                        <div className={styles.itemIcon}>
+                            <PersonIcon />
                         </div>
-                        {resident.email && (
-                            <div>
-                                <EmailIcon
+
+                        <div>
+                            {resident.name && <h4>{resident.name}</h4>}
+                            <div className={styles.itemPhone}>
+                                <CallIcon
                                     style={{
                                         width: "14px",
                                         height: "14px",
                                         marginRight: "5px",
                                     }}
                                 />
-                                {resident.email}
+                                {resident.phone}
                             </div>
-                        )}
+                            {resident.email && (
+                                <div>
+                                    <EmailIcon
+                                        style={{
+                                            width: "14px",
+                                            height: "14px",
+                                            marginRight: "5px",
+                                        }}
+                                    />
+                                    {resident.email}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))}
+            </div>
+        </>
     );
 };

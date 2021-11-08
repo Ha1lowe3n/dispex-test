@@ -1,5 +1,6 @@
 import { appActions } from "./app.reducer";
 import { searchAPI } from "../api/api";
+import { appartmensActions } from "./appartments.reducer";
 
 const residents_CONSTANTS = {
     SET_RESIDENTS: "SET_RESIDENTS",
@@ -11,7 +12,7 @@ const initialState = {
 
 export const residentsReducer = (state = initialState, action) => {
     switch (action.type) {
-        case residents_CONSTANTS.SET_RESIDENTS: {
+        case residents_CONSTANTS.SET_RESIDENTS:
             return {
                 ...state,
                 residents: {
@@ -20,15 +21,6 @@ export const residentsReducer = (state = initialState, action) => {
                     )[0],
                 },
             };
-            const newState = { ...state, residents: { ...state.residents } };
-            newState.residents = {};
-            const filterResidents = action.payload.residents
-                .filter(
-                    (resident) => resident.flat === action.payload.flatTitle
-                )
-                .forEach((resident) => newState.residents.push(resident));
-            return newState;
-        }
         default:
             return state;
     }
@@ -42,13 +34,17 @@ export const residentsActions = {
 };
 
 // thunks
-export const fetchResidentsTC = (houseId, flatTitle) => async (dispatch) => {
-    try {
-        dispatch(appActions.setStatus("loading"));
-        const data = await searchAPI.getResidentsInHouse(houseId);
-        dispatch(residentsActions.setResidents(data, flatTitle));
-        dispatch(appActions.setStatus("stop"));
-    } catch (err) {
-        throw new Error(err);
-    }
-};
+export const fetchResidentsTC =
+    (houseId, street, house, flatTitle) => async (dispatch) => {
+        try {
+            dispatch(appActions.setStatus("loading"));
+            const data = await searchAPI.getResidentsInHouse(houseId);
+            dispatch(residentsActions.setResidents(data, flatTitle));
+            dispatch(
+                appartmensActions.setFullAddressTitle(street, house, flatTitle)
+            );
+            dispatch(appActions.setStatus("stop"));
+        } catch (err) {
+            throw new Error(err);
+        }
+    };

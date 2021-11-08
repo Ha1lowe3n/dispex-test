@@ -8,6 +8,7 @@ const appartmens_CONSTANTS = {
     GET_CURRENT_STREET_ID: "GET_CURRENT_STREET_ID",
     GET_CURRENT_HOUSE_ID: "GET_CURRENT_HOUSE_ID",
     ERROR_ADDRESS: "ERROR_ADDRESS",
+    SET_FULL_ADDRESS_TITLE: "SET_FULL_ADDRESS_TITLE",
 };
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     errorAddress: false,
     currentStreetId: null,
     currentHouseId: null,
+    fullAddressTitle: "",
 };
 
 export const appartmensReducer = (state = initialState, action) => {
@@ -24,7 +26,9 @@ export const appartmensReducer = (state = initialState, action) => {
         case appartmens_CONSTANTS.SET_STREETS: {
             const newState = { ...state, streets: { ...state.streets } };
             action.payload.streets.forEach((street) => {
-                newState.streets[street.id] = street.name;
+                newState.streets[
+                    street.id
+                ] = `${street.prefix.shortName}. ${street.name}`;
             });
             return newState;
         }
@@ -61,6 +65,13 @@ export const appartmensReducer = (state = initialState, action) => {
                 ...state,
                 errorAddress: action.payload.errorAddress,
             };
+        case appartmens_CONSTANTS.SET_FULL_ADDRESS_TITLE: {
+            const { streetTitle, houseTitle, flatTitle } = action.payload;
+            return {
+                ...state,
+                fullAddressTitle: `${streetTitle}, ${houseTitle}, ${flatTitle}`,
+            };
+        }
 
         default:
             return state;
@@ -91,6 +102,10 @@ export const appartmensActions = {
     errorAddress: (errorAddress) => ({
         type: appartmens_CONSTANTS.ERROR_ADDRESS,
         payload: { errorAddress },
+    }),
+    setFullAddressTitle: (streetTitle, houseTitle, flatTitle) => ({
+        type: appartmens_CONSTANTS.SET_FULL_ADDRESS_TITLE,
+        payload: { streetTitle, houseTitle, flatTitle },
     }),
 };
 

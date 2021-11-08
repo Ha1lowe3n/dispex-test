@@ -94,7 +94,7 @@ export const SearchResidents = () => {
             dispatch(appartmensActions.errorAddress(true));
         } else {
             dispatch(appartmensActions.errorAddress(false));
-            dispatch(fetchResidentsTC(currentHouseId, flat));
+            dispatch(fetchResidentsTC(currentHouseId, street, house, flat));
         }
     };
 

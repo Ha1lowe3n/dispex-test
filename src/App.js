@@ -1,4 +1,3 @@
-import Grid from "@mui/material/Grid";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchResidents } from "./components/SearchResidents";
