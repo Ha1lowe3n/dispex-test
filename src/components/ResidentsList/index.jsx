@@ -10,12 +10,14 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CreateIcon from "@mui/icons-material/Create";
 import styles from "./ResidentsList.module.scss";
 import { Modal } from "../Modal";
+import { CreateResident } from "../Modal/CreateResident";
 
 export const ResidentsList = () => {
     const { residents } = useSelector((state) => state.residents);
     const { fullAddressTitle } = useSelector((state) => state.appartments);
 
     const [modalActive, setModalActive] = useState(false);
+    const [typeModal, setTypeModal] = useState("");
 
     return (
         <>
@@ -23,7 +25,12 @@ export const ResidentsList = () => {
                 <>
                     <div className={styles.topList}>
                         <h3>{fullAddressTitle}</h3>
-                        <Button onClick={() => setModalActive(true)}>
+                        <Button
+                            onClick={() => {
+                                setModalActive(true);
+                                setTypeModal("create");
+                            }}
+                        >
                             <PersonAddIcon style={{ color: "black" }} />
                         </Button>
                     </div>
@@ -86,7 +93,13 @@ export const ResidentsList = () => {
                         ))}
                     </div>
 
-                    <Modal active={modalActive} setActive={setModalActive} />
+                    <Modal
+                        active={modalActive}
+                        setActive={setModalActive}
+                        setType={setTypeModal}
+                    >
+                        {typeModal === "create" ? <CreateResident /> : ""}
+                    </Modal>
                 </>
             )}
         </>

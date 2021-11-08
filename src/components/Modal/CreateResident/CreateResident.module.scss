@@ -1,0 +1,77 @@
+@mixin formEnd {
+    margin-top: 10px;
+    height: 30px;
+    width: 80px;
+    outline: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.wrapper {
+    padding: 8px;
+
+    .top {
+        display: flex;
+        justify-content: space-between;
+
+        .close {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .addResident {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        h4 {
+            display: block;
+            margin-left: 10px;
+        }
+    }
+
+    .form {
+        margin-top: 10px;
+
+        .inputBlock {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 10px;
+
+            input {
+                padding: 5px;
+            }
+        }
+
+        .endForm {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+
+            .inputSubmit {
+                @include formEnd;
+                color: #fff;
+                background-color: rgb(6, 120, 226);
+                margin-left: 5px;
+            }
+
+            button {
+                @include formEnd;
+            }
+        }
+
+        form {
+            margin-top: 10px;
+        }
+    }
+
+    .line {
+        width: 100%;
+        height: 1px;
+        background-color: black;
+        margin-top: 5px;
+    }
+}
