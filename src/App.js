@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SearchResidents } from "./components/SearchResidents";
 import { fetchStreetsTC } from "./state/appartments.reducer";
@@ -6,6 +6,7 @@ import { Loader } from "./components/Loader";
 import { ResidentsList } from "./components/ResidentsList";
 
 import styles from "./App.module.scss";
+import { Modal } from "@mui/material";
 
 function App() {
     const dispatch = useDispatch();
