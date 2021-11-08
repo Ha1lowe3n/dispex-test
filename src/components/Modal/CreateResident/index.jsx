@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import styles from "./CreateResident.module.scss";
+import { createResidentsTC } from "../../../state/residents.reducer";
 
 export const CreateResident = ({ setActive, setType }) => {
-    const { fullAddressTitle } = useSelector((state) => state.appartments);
-    console.log(fullAddressTitle);
+    const dispatch = useDispatch();
+    const { fullAddressTitle, currentAddressId } = useSelector(
+        (state) => state.appartments
+    );
+    console.log(currentAddressId);
 
     const [valuePhone, setValuePhone] = useState("");
     const [valueEmail, setValueEmail] = useState("");
@@ -29,7 +33,15 @@ export const CreateResident = ({ setActive, setType }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("submit");
+        dispatch(
+            createResidentsTC(
+                valueFullname,
+                valuePhone,
+                valueEmail,
+                currentAddressId
+            )
+        );
+        closeModal();
     };
 
     return (

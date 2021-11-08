@@ -9,6 +9,7 @@ const appartmens_CONSTANTS = {
     GET_CURRENT_HOUSE_ID: "GET_CURRENT_HOUSE_ID",
     ERROR_ADDRESS: "ERROR_ADDRESS",
     SET_FULL_ADDRESS_TITLE: "SET_FULL_ADDRESS_TITLE",
+    SET_CURRENT_ADDRESS_ID: "SET_CURRENT_ADDRESS_ID",
 };
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
     currentStreetId: null,
     currentHouseId: null,
     fullAddressTitle: "",
+    currentAddressId: null,
 };
 
 export const appartmensReducer = (state = initialState, action) => {
@@ -72,6 +74,15 @@ export const appartmensReducer = (state = initialState, action) => {
                 fullAddressTitle: `${streetTitle}, ${houseTitle}, ${flatTitle}`,
             };
         }
+        case appartmens_CONSTANTS.SET_CURRENT_ADDRESS_ID: {
+            const { flats, flatTitle } = action.payload;
+            return {
+                ...state,
+                currentAddressId: Object.keys(flats).find(
+                    (key) => flats[key] === flatTitle
+                ),
+            };
+        }
 
         default:
             return state;
@@ -107,6 +118,10 @@ export const appartmensActions = {
         type: appartmens_CONSTANTS.SET_FULL_ADDRESS_TITLE,
         payload: { streetTitle, houseTitle, flatTitle },
     }),
+    setCurrentAddressId: (flats, flatTitle) => ({
+        type: appartmens_CONSTANTS.SET_CURRENT_ADDRESS_ID,
+        payload: { flats, flatTitle },
+    }),
 };
 
 // thunks
@@ -135,6 +150,7 @@ export const fetchFlatsTC = (idOfHouse) => async (dispatch) => {
     try {
         dispatch(appActions.setStatus("loading"));
         const flats = await searchAPI.getFlats(idOfHouse);
+
         dispatch(appartmensActions.setFlats(flats));
         dispatch(appartmensActions.getCurrentHouseId(+idOfHouse));
         dispatch(appActions.setStatus("stop"));

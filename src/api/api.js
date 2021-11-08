@@ -21,4 +21,25 @@ export const searchAPI = {
         const res = await instance.get(`HousingStock?houseId=${houseId}`);
         return res.data;
     },
+    async createResident(fullname, phone, email) {
+        const res = await instance.post(`HousingStock/client`, {
+            Id: 0,
+            Name: fullname,
+            Phone: phone,
+            Email: email,
+            BindId: 0,
+        });
+        return res.data;
+    },
+    async getResident(phone) {
+        const res = await instance.get(`HousingStock/client?phone=${phone}`);
+        return res.data;
+    },
+    async bindResident(addressId, clientId) {
+        const res = await instance.put(`HousingStock/bind_client`, {
+            AddressId: addressId,
+            ClientId: clientId,
+        });
+        return res.data;
+    },
 };
