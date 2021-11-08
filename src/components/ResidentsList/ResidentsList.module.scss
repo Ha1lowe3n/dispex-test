@@ -1,3 +1,9 @@
+.topList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .list {
     display: flex;
     width: 100%;
@@ -7,13 +13,20 @@
 
     .item {
         border: 1px solid black;
-        min-width: 250px;
+        min-width: 200px;
         border-radius: 8px;
-        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
         margin-right: 20px;
         margin-top: 20px;
-        display: flex;
-        justify-content: flex-start;
+
+        .information {
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+        }
 
         .itemIcon {
             padding-right: 8px;
@@ -21,6 +34,22 @@
 
         .itemPhone {
             color: green;
+        }
+
+        .buttons {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-around;
+            background-color: #fafafa;
+            padding: 10px;
+            border-radius: 0 0 8px 8px;
+
+            .buttonsBorder {
+                bottom: 0;
+                height: 24px;
+                width: 0.5px;
+                background-color: black;
+            }
         }
     }
 }
